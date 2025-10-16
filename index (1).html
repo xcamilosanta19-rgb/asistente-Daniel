@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Daniel — Asistente Tabla Periódica (UNIMETA 2025)</title>
+<style>
+  :root{
+    --bg:#ececec;
+    --card:#ffffff;
+    --accent:#2f7a3b;
+    --accent-dark:#1f5a2b;
+    --muted:#556b5a;
+    --bubble:#f3fbf6;
+  }
+  body{font-family:Inter, system-ui, Arial, Helvetica, sans-serif;background:var(--bg);margin:0;
+    display:flex;align-items:center;justify-content:center;min-height:100vh;padding:18px;color:#153419}
+  .card{width:100%;max-width:980px;background:var(--card);border-radius:12px;box-shadow:0 8px 30px rgba(10,20,10,0.06);
+    padding:20px;box-sizing:border-box}
+  header{display:flex;gap:14px;align-items:center}
+  .avatar-wrap{width:84px;height:84px;flex:0 0 84px}
+  .avatar{width:84px;height:84px;border-radius:10px;background:linear-gradient(180deg,#fff,#f6f7f7);display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,0.06)}
+  h1{margin:0;font-size:20px}
+  p.lead{margin:6px 0 0;color:var(--muted);font-size:14px}
+  .chat{margin-top:16px;border-radius:10px;padding:14px;background:#f7f7f7;min-height:360px}
+  .row{display:flex;gap:18px}
+  .left{flex:0 0 340px}
+  .right{flex:1;min-height:260px}
+  .card-panel{background:white;border-radius:10px;padding:12px;box-shadow:0 2px 8px rgba(10,20,10,0.03)}
+  .intro{display:flex;gap:12px;align-items:flex-start}
+  .message{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+  .bubble{background:var(--bubble);padding:12px 14px;border-radius:10px;max-width:100%;box-shadow:0 1px 0 rgba(0,0,0,0.02)}
+  .bubble strong{color:var(--accent-dark)}
+  .options{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+  .btn{background:var(--accent);color:white;border:0;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+  .btn-ghost{background:transparent;border:1px solid var(--accent);color:var(--accent);padding:10px 14px;border-radius:8px;cursor:pointer}
+  input[type="text"]{padding:10px;border-radius:8px;border:1px solid #e6efe8;width:60%}
+  .link{color:var(--accent-dark);text-decoration:none;border-bottom:1px dashed rgba(31,111,54,0.12);padding-bottom:2px}
+  footer{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
+  ul.clean{padding-left:18px;margin:8px 0}
+  pre{white-space:pre-wrap;background:#fbfffb;padding:10px;border-radius:8px;border:1px solid #eef9ef}
+  .small{font-size:13px;color:var(--muted)}
+  @media (max-width:880px){.row{flex-direction:column}.left{flex:unset}}
+</style>
+</head>
+<body>
+  <main class="card" role="main" aria-live="polite">
+    <header>
+      <div class="avatar-wrap">
+        <div class="avatar" aria-hidden="true">
+          <!-- Inline SVG avatar: academic male with lab coat and glasses -->
+          <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Avatar Daniel">
+            <rect x="0" y="0" width="72" height="72" rx="10" fill="#f6f7f7"/>
+            <!-- shoulders / lab coat -->
+            <path d="M12 58c0-7 12-10 24-10s24 3 24 10v2H12v-2z" fill="#ffffff" stroke="#e6ece6"/>
+            <!-- neck -->
+            <path d="M34 44c0 0 4 1 4 4s-6 4-6 0 2-4 2-4z" fill="#f0d8b6"/>
+            <!-- head -->
+            <circle cx="36" cy="28" r="12" fill="#f0d8b6" stroke="#e0caa3"/>
+            <!-- hair -->
+            <path d="M24 24c2-6 10-8 16-6 0 0 2 0 4 2 0 0 0-4-6-6-6-2-16 0-18 6z" fill="#313131"/>
+            <!-- glasses -->
+            <rect x="22" y="26" width="12" height="6" rx="2" fill="#111" opacity="0.9"/>
+            <rect x="38" y="26" width="12" height="6" rx="2" fill="#111" opacity="0.9"/>
+            <path d="M34 29h4" stroke="#222" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M20 28h-2" stroke="#222" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M52 28h2" stroke="#222" stroke-width="1.2" stroke-linecap="round"/>
+            <!-- collar -->
+            <path d="M30 40 L28 34 L36 34 L44 34 L42 40 Z" fill="#ffffff" stroke="#e6ece6"/>
+            <!-- tie / inner -->
+            <rect x="34" y="36" width="4" height="6" fill="#2f7a3b"/>
+          </svg>
+        </div>
+      </div>
+
+      <div style="flex:1">
+        <h1>Daniel — Asistente Virtual de la Tabla Periódica</h1>
+        <p class="lead">Bienvenido. Soy <strong>Daniel</strong>, tu asistente académico. Te guiaré en la estructura de la tabla, la búsqueda de elementos y curiosidades —nivel universitario.</p>
+      </div>
+    </header>
+
+    <section class="chat" id="chat" aria-label="Zona de diálogo">
+      <div class="row">
+        <div class="left">
+          <div class="card-panel">
+            <div class="intro message">
+              <div style="flex:0 0 54px">
+                <!-- small avatar for messages -->
+                <div style="width:54px;height:54px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,0.04)">
+                  <!-- tiny SVG same style -->
+                  <svg width="42" height="42" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect x="0" y="0" width="72" height="72" rx="10" fill="#f6f7f7"/>
+                    <circle cx="36" cy="28" r="12" fill="#f0d8b6"/>
+                    <path d="M24 24c2-6 10-8 16-6 0 0 2 0 4 2 0 0 0-4-6-6-6-2-16 0-18 6z" fill="#313131"/>
+                    <rect x="22" y="26" width="12" height="6" rx="2" fill="#111" opacity="0.9"/>
+                    <rect x="38" y="26" width="12" height="6" rx="2" fill="#111" opacity="0.9"/>
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <div class="bubble"><strong>Daniel:</strong> 👋 Hola — soy Daniel. Estoy aquí para acompañarte a descubrir la <em>tabla periódica</em>: su estructura, los elementos y curiosidades con recursos visuales en español. ¿Por dónde quieres comenzar?</div>
+                <div class="options" style="margin-top:10px">
+                  <button class="btn" onclick="choose('estructura')">🧩 Estructura y organización</button>
+                  <button class="btn" onclick="choose('elementos')">🔍 Buscar elemento (1–20)</button>
+                  <button class="btn" onclick="choose('curiosidades')">💡 Curiosidades</button>
+                  <button class="btn-ghost" onclick="choose('referencias')">📚 Enlaces generales</button>
+                </div>
+                <p class="small" style="margin-top:10px">Nota: la búsqueda incluye los primeros 20 elementos; si deseas más, te daré enlaces con la tabla completa y recursos visuales.</p>
+              </div>
+            </div>
+
+            <hr style="border:none;border-top:1px solid #eef3ee;margin:12px 0">
+
+            <div style="font-size:13px;color:var(--muted)">
+              <strong>Atajos:</strong> pulsa <em>Estructura</em> para ver infografías; <em>Buscar</em> para consultar elementos por símbolo o Z; <em>Curiosidades</em> para lecturas y galerías.
+            </div>
+          </div>
+
+          <div style="height:14px"></div>
+
+          <div class="card-panel" style="margin-top:12px">
+            <strong>Firma</strong>
+            <p class="small">Desarrollado por estudiantes de Ingeniería — UNIMETA 2025</p>
+          </div>
+
+        </div>
+
+        <div class="right">
+          <div id="content" class="content-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <small class="small">Contenido educativo — enlaces en español y recursos visuales seleccionados para complementar el aprendizaje.</small>
+    </footer>
+  </main>
+
+<script>
+  // Data: 20 first elements with academic-level mini-summaries and curiosity + links in Spanish with images
+  const elements = [
+    {Z:1,symbol:'H',name:'Hidrógeno',mass:'1.008',group:'No metal (Grupo 1)',period:1,info:'Gas más ligero; esencial en química ácido-base y en procesos redox. Forma enlaces covalentes y presenta estados de oxidación +1, -1 en hidruros.' ,links:[
+      {t:'Hidrógeno: visual (Ptable)',u:'https://ptable.com/?lang=es'},
+      {t:'Aplicaciones y videos (Quimitube)',u:'https://www.quimitube.com/'}
+    ]},
+    {Z:2,symbol:'He',name:'Helio',mass:'4.0026',group:'Gas noble',period:1,info:'Gases nobles, baja reactividad por configuración electrónica completa; en el Sol se detectó antes que en la Tierra.' ,links:[
+      {t:'Helio — recurso visual (Ptable)',u:'https://ptable.com/?lang=es'},
+      {t:'Curiosidades (Lifeder)',u:'https://www.lifeder.com/elementos-quimicos/'}
+    ]},
+    {Z:3,symbol:'Li',name:'Litio',mass:'6.94',group:'Metal alcalino',period:2,info:'Metal ligero, importante en baterías recargables; alta reactividad con el agua.' ,links:[
+      {t:'Litio y baterías (Ptable)',u:'https://ptable.com/?lang=es'}
+    ]},
+    {Z:4,symbol:'Be',name:'Berilio',mass:'9.0122',group:'Alcalinotérreo',period:2,info:'Metal de bajo peso y alta rigidez; uso en aleaciones y componentes aeroespaciales; tóxico.' ,links:[
+      {t:'Berilio — fichas y datos (Lifeder)',u:'https://www.lifeder.com/elementos-quimicos/'}
+    ]},
+    {Z:5,symbol:'B',name:'Boro',mass:'10.81',group:'Metaloide',period:2,info:'Metaloide con aplicaciones en materiales cerámicos y detergentes; química de coordinación interesante.' ,links:[
+      {t:'Boro — imágenes y aplicaciones (Ptable)',u:'https://ptable.com/?lang=es'}
+    ]},
+    {Z:6,symbol:'C',name:'Carbono',mass:'12.011',group:'No metal',period:2,info:'Base de la química orgánica; variedad de alótropos. Sus orbitales híbridos determinan geometrías moleculares clave.' ,links:[
+      {t:'Carbono: estructuras (Quimitube)',u:'https://www.quimitube.com/'},
+      {t:'Grafeno y alótropos (BBVA OpenMind)',u:'https://www.bbvaopenmind.com/'}
+    ]},
+    {Z:7,symbol:'N',name:'Nitrógeno',mass:'14.007',group:'No metal',period:2,info:'Componente principal del aire; importante en enlaces múltiples y bioquímica (proteínas, bases nitrogenadas).' ,links:[
+      {t:'Nitrógeno — recursos visuales (Ptable)',u:'https://ptable.com/?lang=es'}
+    ]},
+    {Z:8,symbol:'O',name:'Oxígeno',mass:'15.999',group:'No metal (calcógenos)',period:2,info:'Muy electronegativo; determinante en reactividad redox y respiración; formas alotrópicas interesantes.' ,links:[
+      {t:'Oxígeno — datos y fotos (Lifeder)',u:'https://www.lifeder.com/elementos-quimicos/'}
+    ]},
+    {Z:9,symbol:'F',name:'Flúor',mass:'18.998',group:'Halógeno',period:2,info:'Elemento más electronegativo; reactividad extrema; importante en química orgánica y materiales fluorados.' ,links:[
+      {t:'Flúor — propiedades (Ptable)',u:'https://ptable.com/?lang=es'}
+    ]},
+    {Z:10,symbol:'Ne',name:'Neón',mass:'20.180',group:'Gas noble',period:2,info:'Gas noble, usado en iluminación; espectros y líneas de emisión características.' ,links:[
+      {t:'Neón — imágenes (Quimitube)',u:'https://www.quimitube.com/'}
+    ]},
+    {Z:11,symbol:'Na',name:'Sodio',mass:'22.990',group:'Metal alcalino',period:3,info:'Metal blando, reacciona vigorosamente con agua; papel central en fisiología y química inorgánica.' ,links:[
+      {t:'Sodio — usos y fotos (Ptable)',u:'https://ptable.com/?lang=es'}
+    ]},
+    {Z:12,symbol:'Mg',name:'Magnesio',mass:'24.305',group:'Alcalinotérreo',period:3,info:'Metal ligero usado en aleaciones y biología (clorofila); reactividad moderada.' ,links:[
+      {t:'Magnesio — datos visuales (Lifeder)',u:'https://www.lifeder.com/elementos-quimicos/'}
+    ]},
+    {Z:13,symbol:'Al',name:'Aluminio',mass:'26.982',group:'Metal',period:3,info:'Metal abundante en la corteza; forma óxidos protectores; usos estructurales y en la industria.' ,links:[
+      {t:'Aluminio — imágenes y aplicaciones (Ptable)',u:'https://ptable.com/?lang=es'}
+    ]},
+    {Z:14,symbol:'Si',name:'Silicio',mass:'28.085',group:'Metaloide',period:3,info:'Base de la industria de semiconductores; propiedades electrónicos cruciales en materiales.' ,links:[
+      {t:'Silicio — semiconductores (BBVA OpenMind)',u:'https://www.bbvaopenmind.com/'}
+    ]},
+    {Z:15,symbol:'P',name:'Fósforo',mass:'30.974',group:'No metal',period:3,info:'Presenta alotropos (blanco, rojo) con propiedades muy distintas; esencial en bioquímica (ATP).' ,links:[
+      {t:'Fósforo — imágenes y fichas (Lifeder)',u:'https://www.lifeder.com/elementos-quimicos/'}
+    ]},
+    {Z:16,symbol:'S',name:'Azufre',mass:'32.06',group:'Calcógeno',period:3,info:'Ampliamente usado en química industrial; múltiples formas alotrópicas y compuestos orgánicos con S.' ,links:[
+      {t:'Azufre — curiosidades visuales (HistoriayBiografias)',u:'https://historiaybiografias.com/tabla-periodica-curiosidades/'}
+    ]},
+    {Z:17,symbol:'Cl',name:'Cloro',mass:'35.45',group:'Halógeno',period:3,info:'Gas reactivo; importante en síntesis orgánica e industria del cloro; compuestos inorgánicos y orgánicos relevantes.' ,links:[
+      {t:'Cloro — datos y usos (Ptable)',u:'https://ptable.com/?lang=es'}
+    ]},
+    {Z:18,symbol:'Ar',name:'Argón',mass:'39.948',group:'Gas noble',period:3,info:'Inerte, usado en atmósferas protectoras y en iluminación; espectros útiles en análisis.' ,links:[
+      {t:'Argón — ilustraciones (Quimitube)',u:'https://www.quimitube.com/'}
+    ]},
+    {Z:19,symbol:'K',name:'Potasio',mass:'39.098',group:'Metal alcalino',period:4,info:'Metal reactivo, importante en biología y en procesos redox; presente en minerales y sales.' ,links:[
+      {t:'Potasio — recursos visuales (Ptable)',u:'https://ptable.com/?lang=es'}
+    ]},
+    {Z:20,symbol:'Ca',name:'Calcio',mass:'40.078',group:'Alcalinotérreo',period:4,info:'Metal esencial en biología (huesos), compuestos como carbonato de calcio y su papel en materiales.' ,links:[
+      {t:'Calcio — imágenes y datos (Lifeder)',u:'https://www.lifeder.com/elementos-quimicos/'}
+    ]}
+  ];
+
+  // Structure resources (visual, spanish)
+  const structureLinks = [
+    {t:'Infografía visual: Tabla periódica (Concepto.de)', u:'https://concepto.de/tabla-periodica/'},
+    {t:'Explicación visual y guías (Lifeder)', u:'https://www.lifeder.com/estructura-tabla-periodica/'},
+    {t:'Tabla interactiva en español (Ptable)', u:'https://ptable.com/?lang=es'}
+  ];
+
+  const curiositiesLinks = [
+    {t:'BBVA OpenMind — Curiosidades', u:'https://www.bbvaopenmind.com/articulos/10-curiosidades-de-la-tabla-periodica/'},
+    {t:'Galería y curiosidades (HistoriayBiografias)', u:'https://historiaybiografias.com/tabla-periodica-curiosidades/'},
+    {t:'Videos y visualizaciones (Quimitube)', u:'https://www.quimitube.com/'}
+  ];
+
+  // Utility to create assistant message block
+  function botHtml(html){
+    return `<div class="message"><div class="bubble"><strong>Daniel:</strong> ${html}</div></div>`;
+  }
+  function userHtml(text){
+    return `<div class="message user"><div class="bubble">${text}</div></div>`;
+  }
+
+  const content = document.getElementById('content');
+
+  function choose(opt){
+    content.innerHTML = ''; // clear
+    if(opt === 'estructura'){
+      content.innerHTML += botHtml(`<strong>Estructura y organización</strong><br><br>
+      La tabla periódica ordena los elementos por número atómico (Z). Los períodos horizontales indican niveles de energía (n); los grupos verticales reúnen elementos con propiedades químicas semejantes. Los bloques s, p, d y f derivan de las subcapas ocupadas. Tendencias periódicas claves: radio atómico, energía de ionización, afinidad electrónica y electronegatividad — fundamentales para predecir reactividad y enlaces.`);
+      // links
+      let html = '<div style="margin-top:10px"><em>Recursos visuales en español:</em><ul class="clean">';
+      structureLinks.forEach(l=> html += `<li><a class="link" href="${l.u}" target="_blank" rel="noopener noreferrer">${l.t}</a></li>`);
+      html += '</ul></div>';
+      content.innerHTML += botHtml(html);
+      content.innerHTML += userHtml('¿Deseas que ejemplifique una tendencia (p.ej., energía de ionización) con datos numéricos? <button class="btn" onclick="showTrend()">Sí, muéstrame</button> <button class="btn-ghost" onclick="reset()">Volver</button>');
+    } else if(opt === 'elementos'){
+      content.innerHTML += botHtml('Introduce el símbolo (p.ej., Fe) o el número atómico (p.ej., 26) en el campo de búsqueda. (Base: primeros 20 elementos)');
+      content.innerHTML += `<div style="margin-top:10px">${userHtml('<input id="elem-in" type="text" placeholder="Ej. Fe o 26">')} <button class="btn" onclick="lookup()">Buscar</button></div>`;
+      content.innerHTML += `<div style="margin-top:12px" id="elem-out"></div>`;
+      content.innerHTML += botHtml('Recuerda: muestro los primeros 20 elementos. Para ver el resto, te ofreceré enlaces completos.');
+    } else if(opt === 'curiosidades'){
+      content.innerHTML += botHtml('Aquí tienes curiosidades seleccionadas sobre los elementos y sus aplicaciones:');
+      const curios = [
+        'El helio se detectó por primera vez en el espectro solar antes de aislarse en la Tierra.',
+        'El galio tiene punto de fusión bajo (≈29.7°C) y puede derretirse en la mano.',
+        'Algunos elementos (Au, Ag) presentan color metálico natural; la mayoría de metales son plateados.',
+        'La "isla de estabilidad" en investigación de elementos superpesados sugiere núcleos relativamente más estables.',
+        'El comportamiento catalítico de metales de transición depende de la densidad de estados d y su capacidad para aceptar/ceder electrones.'
+      ];
+      let html = '<ul class="clean">';
+      curios.forEach(c => html += `<li>${c}</li>`);
+      html += '</ul>';
+      content.innerHTML += botHtml(html);
+      let linksHtml = '<div style="margin-top:8px"><em>Enlaces visuales y galerías (español):</em><ul class="clean">';
+      curiositiesLinks.forEach(l=> linksHtml += `<li><a class="link" href="${l.u}" target="_blank" rel="noopener noreferrer">${l.t}</a></li>`);
+      linksHtml += '</ul></div>';
+      content.innerHTML += botHtml(linksHtml);
+      content.innerHTML += userHtml('<button class="btn-ghost" onclick="reset()">Volver</button>');
+    } else if(opt === 'referencias'){
+      content.innerHTML += botHtml('Fuentes y recursos en español (visual y didáctico):<ul class="clean">' +
+        structureLinks.map(l=>`<li><a class="link" href="${l.u}" target="_blank" rel="noopener noreferrer">${l.t}</a></li>`).join('') +
+        '</ul>');
+      content.innerHTML += botHtml('<em>¿Quieres una bibliografía en formato APA basada en estos recursos?</em><br><button class="btn" onclick="generateAPA()">Generar APA</button> <button class="btn-ghost" onclick="reset()">Volver</button>');
+    }
+  }
+
+  function reset(){
+    // simulate clicking nothing: show intro options again by reloading the initial prompt content
+    location.reload();
+  }
+
+  function lookup(){
+    const q = document.getElementById('elem-in').value.trim();
+    const out = document.getElementById('elem-out');
+    out.innerHTML = '';
+    if(!q){ out.innerHTML = `<div class="bubble">Introduce un símbolo o número atómico.</div>`; return; }
+    let res = null;
+    if(/^\d+$/.test(q)){
+      const Z = parseInt(q,10);
+      res = elements.find(e=> e.Z === Z);
+    } else {
+      const q2 = q[0].toUpperCase() + q.slice(1).toLowerCase();
+      res = elements.find(e=> e.symbol === q2 || e.name === q2);
+    }
+    if(!res){
+      out.innerHTML = `<div class="bubble">Elemento no encontrado en la base reducida (1–20). Para consultar todos los elementos, visita: <br><a class="link" href="https://ptable.com/?lang=es" target="_blank" rel="noopener noreferrer">Tabla interactiva Ptable</a> o <a class="link" href="https://www.quimitube.com/" target="_blank" rel="noopener noreferrer">Quimitube (visual)</a></div>`;
+      return;
+    }
+    let html = `<div class="bubble"><strong>${res.name} (${res.symbol}) — Z=${res.Z}</strong><br>
+      Masa atómica: ${res.mass} u<br>
+      Grupo / Tipo: ${res.group} — Período ${res.period}<br><br>
+      ${res.info}<br><br>
+      <em>Enlaces visuales y complementarios:</em><br>` + res.links.map(l=>`<a class="link" href="${l.u}" target="_blank" rel="noopener noreferrer">${l.t}</a>`).join(' | ') + `</div>`;
+    out.innerHTML = html;
+  }
+
+  function showTrend(){
+    content.innerHTML += botHtml('Ejemplo numérico: energía de ionización en los metales alcalinos — Li (Z=3) EI1 ≈ 520 kJ/mol; Na (Z=11) EI1 ≈ 496 kJ/mol; K (Z=19) EI1 ≈ 419 kJ/mol. Esto explica por qué la reactividad aumenta al descender en el grupo.');
+    content.innerHTML += userHtml('<button class="btn-ghost" onclick="reset()">Volver</button>');
+  }
+
+  function generateAPA(){
+    content.innerHTML += botHtml('Generando bibliografía en formato APA basada en recursos visuales:');
+    const bib = `Concepto.de. (s.f.). Tabla periódica. https://concepto.de/tabla-periodica/\nLifeder. (s.f.). Estructura de la tabla periódica. https://www.lifeder.com/estructura-tabla-periodica/\nPtable. (s.f.). Tabla periódica interactiva. https://ptable.com/`;
+    content.innerHTML += botHtml('<pre>' + bib + '</pre>');
+    content.innerHTML += userHtml('<button class="btn-ghost" onclick="reset()">Volver</button>');
+  }
+
+  // initial
+  document.addEventListener('DOMContentLoaded', ()=> {
+    // nothing to do; waiting user actions (buttons are in DOM)
+  });
+</script>
+</body>
+</html>
